@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ObtainiumJet</string>
+    <string name="nav_apps">Apps</string>
+    <string name="nav_add_app">Add App</string>
+    <string name="nav_import_export">Import/Export</string>
+    <string name="nav_settings">Settings</string>
+</resources>
