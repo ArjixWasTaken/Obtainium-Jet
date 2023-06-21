@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,7 @@ import androidx.navigation.compose.rememberNavController
 
 // Screens
 import org.arjix.obtainium.ui.screen.splash.SplashScreen
-import org.arjix.obtainium.ui.screen.apps.AppsScreen
+import org.arjix.obtainium.ui.screen.apps.*
 import org.arjix.obtainium.ui.screen.settings.SettingsScreen
 import org.arjix.obtainium.ui.screen.todo.TODOScreen
 
@@ -78,21 +79,29 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
 
         Scaffold(
+            topBar = { NetworkStatusBar(connectedToInternet.value) },
             bottomBar = {
+                val route = currentRoute(navController)
+
                 if (!listOf(
                         Screen.Splash.route,
                         Screen.Intro.route
-                    ).contains(currentRoute(navController))
+                    ).contains(route)
                 ) {
-                    BottomNavigation(
-                        navController,
-                        listOf(
-                            NaviBarScreens.Apps,
-                            NaviBarScreens.AddApp,
-                            NaviBarScreens.ImportExport,
-                            NaviBarScreens.Settings,
+                    Column {
+                        if (route == Screen.Apps.route) {
+                            Toolbar()
+                        }
+                        BottomNavigation(
+                            navController,
+                            listOf(
+                                NaviBarScreens.Apps,
+                                NaviBarScreens.AddApp,
+                                NaviBarScreens.ImportExport,
+                                NaviBarScreens.Settings,
+                            )
                         )
-                    )
+                    }
                 }
             },
         ) {
@@ -115,17 +124,14 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable(Screen.Apps.route) {
-                    NetworkStatusBar(connectedToInternet.value)
                     AppsScreen()
                 }
 
                 composable(Screen.AddApp.route) {
-                    NetworkStatusBar(connectedToInternet.value)
                     TODOScreen(navController = navController)
                 }
 
                 composable(Screen.ImportExport.route) {
-                    NetworkStatusBar(connectedToInternet.value)
                     TODOScreen(navController = navController)
                 }
 
