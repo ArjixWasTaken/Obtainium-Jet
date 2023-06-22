@@ -89,9 +89,10 @@ class MainActivity : ComponentActivity() {
                     ).contains(route)
                 ) {
                     Column {
-                        if (route == Screen.Apps.route) {
-                            Toolbar()
+                        when (route) {
+                            Screen.Apps.route -> Toolbar()
                         }
+
                         BottomNavigation(
                             navController,
                             listOf(
